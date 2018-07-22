@@ -7,7 +7,7 @@
 
 #include <assert.h>
 
-#include "parser.h"
+#include "./parse/parser.h"
 
 int main() {
 	FILE* map_file;
