@@ -21,6 +21,15 @@ component {
 	tex_1 = "path/ to/tex1.bmp";
 }
 
+component {
+	x = "0";
+	y = "0";
+	w = "4";
+	h = "1";
+	is_floor_ciel = "0";
+	tex_0 = "path/to/wall.bmp";
+}
+
 thing {
 	# Integers
 	type = "0";
