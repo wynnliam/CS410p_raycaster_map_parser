@@ -10,6 +10,7 @@
 #include "./parse/parser.h"
 
 void print_map(struct map_data* map_data);
+void print_component(struct component* curr);
 
 int main() {
 	FILE* map_file;
@@ -39,4 +40,20 @@ int main() {
 void print_map(struct map_data* map_data) {
 	printf("Map Name: %s\n", map_data->name);
 	printf("Sky Texture: %s\n", map_data->sky_tex);
+
+	print_component(map_data->component_head);
+}
+
+void print_component(struct component* curr) {
+	if(!curr)
+		return;
+
+	printf("COMPONENT:\n");
+	printf("x = %d, y = %d\n", curr->x, curr->y);
+	printf("w = %d, h = %d\n", curr->w, curr->h);
+	printf("Is Floor/Ceil Pair: %d\n", curr->is_floor_ceil);
+	printf("Tex 0 = %s\n", curr->tex_0);
+	printf("Tex 1 = %s\n", curr->tex_1);
+
+	print_component(curr->next);
 }

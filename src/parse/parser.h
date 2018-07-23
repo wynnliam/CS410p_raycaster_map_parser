@@ -215,13 +215,14 @@ int read_data(char c, FILE* map_file, struct map_data* map_data);
 
 	ARGUMENTS:
 		c - The first character for the recipe name.
-		map - the file we read characters from.
+		map_file - the file we read characters from.
+		map_data - For adding components/things to.
 
 	RETURNS:
 		1 - successfully read in recipe name
 		-1 - The parser failed: bad format or the recipe type is invalid.
 */
-int parse_recipe_header(char c, FILE* map);
+int parse_recipe_header(char c, FILE* map_file, struct map_data* map_data);
 
 /*
 	Set the curr_recipe_type state variable to a number as follows:
@@ -237,7 +238,7 @@ int parse_recipe_header(char c, FILE* map);
 		sets curr_recipe_type to an integer value corresponding to the
 		kind of recipe we are about to read in.
 */
-void set_curr_recipe_type(char* recipe_header);
+void set_curr_recipe_type(char* recipe_header, struct map_data* map_data);
 
 /*
 	Parses a single attribute statement in a recipe. It simply parses a single

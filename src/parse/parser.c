@@ -87,7 +87,7 @@ int read_comment(char c, FILE* map) {
 int read_data(char c, FILE* map_file, struct map_data* map_data) {
 
 	if(curr_state == PARSING_HEADER)
-		return parse_recipe_header(c, map_file);
+		return parse_recipe_header(c, map_file, map_data);
 	if(curr_state == PARSING_ATTRIBUTES)
 		return parse_attribute(c, map_file, map_data);
 
@@ -95,7 +95,7 @@ int read_data(char c, FILE* map_file, struct map_data* map_data) {
 	return -1;
 }
 
-int parse_recipe_header(char c, FILE* map) {
+int parse_recipe_header(char c, FILE* map_file, struct map_data* map_data) {
 	// Where we will read a value into.
 	char buffer[10000];
 	// Used to store characters in buffer.
@@ -107,7 +107,7 @@ int parse_recipe_header(char c, FILE* map) {
 	// We read in the name of the recipe. We do not need to check
 	// for any comments, end of line, or whitespace. These are handled
 	// by the parser prior to reading in the recipe header. 
-	while(is_lower_alpha((c = fgetc(map)))) {
+	while(is_lower_alpha((c = fgetc(map_file)))) {
 		buffer[index] = c;
 		++index;
 	}
@@ -119,7 +119,7 @@ int parse_recipe_header(char c, FILE* map) {
 
 	// Check to make sure the recipe type is valid
 	// TODO: at this point, allocate items in the map_data.
-	set_curr_recipe_type(buffer);
+	set_curr_recipe_type(buffer, map_data);
 	if(curr_recipe_type == RTYPE_INVALID) {
 		printf("ERROR: Invalid recipe type!\n");
 		return -1;
@@ -128,7 +128,7 @@ int parse_recipe_header(char c, FILE* map) {
 	// Processing all whitespace between last lower alpha character in recipe name
 	// until curly bracket.
 	while(is_whitespace(c) || is_end_of_line(c))
-		c = fgetc(map);
+		c = fgetc(map_file);
 
 	// ERROR: Read in invalid character
 	if(c != '{') {
@@ -142,7 +142,7 @@ int parse_recipe_header(char c, FILE* map) {
 	return 1;
 }
 
-void set_curr_recipe_type(char* recipe_header) {
+void set_curr_recipe_type(char* recipe_header, struct map_data* map_data) {
 	int result;
 
 	if(!recipe_header) {
@@ -152,8 +152,10 @@ void set_curr_recipe_type(char* recipe_header) {
 
 	if(strcmp(recipe_header, "properties") == 0)
 		result = RTYPE_PROPERTIES;
-	else if(strcmp(recipe_header, "component") == 0)
+	else if(strcmp(recipe_header, "component") == 0) {
+		add_component(map_data);
 		result = RTYPE_COMPONENT;
+	}
 	else if(strcmp(recipe_header, "thing") == 0)
 		result = RTYPE_THING;
 	else
