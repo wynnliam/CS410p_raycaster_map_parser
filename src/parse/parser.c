@@ -200,7 +200,6 @@ int parse_attribute(char c, FILE* map_file, struct map_data* map_data) {
 	}
 
 	name_buff[index] = '\0';
-	printf("Attribute name: %s\n", name_buff);
 
 	set_curr_attribute_type(name_buff);
 	if(curr_attribute_type == ATYPE_INVALID) {
@@ -251,15 +250,10 @@ int parse_attribute(char c, FILE* map_file, struct map_data* map_data) {
 	}
 
 	val_buff[index] = '\0';
-	printf("Attribute value: %s.\n", val_buff);
-	// TODO: Set value for attribute.
-	if(curr_attribute_type == ATYPE_INTEGER) {
-		attrib_val_as_int = atoi(val_buff);
-		printf("Attribute value as int: %d.\n\n", attrib_val_as_int);
-	}
 
-	else {
-		printf("\n");
+	if(!set_map_data_val(map_data, name_buff, val_buff)) {
+		printf("ERROR: Invalid recipe or attribute\n");
+		return -1;
 	}
 
 	// Finally, we finish off the attribute by reading the semicolon.
@@ -319,6 +313,47 @@ void set_curr_attribute_type(char* attribute_name) {
 		else
 			curr_attribute_type = ATYPE_INVALID;
 	}
+}
+
+int set_map_data_val(struct map_data* map_data, char* attribute_name, char* attribute_val) {
+	// Perform the error checking.
+	if(!map_data || !attribute_name || !attribute_val)
+		return 0;
+	if(curr_state != PARSING_ATTRIBUTES)
+		return 0;
+	if(curr_recipe_type == RTYPE_INVALID || curr_attribute_type == ATYPE_INVALID)
+		return 0;
+
+	// What we will return.
+	int result;
+	// If the attribute value has to be an integer, we use this to set it.
+	int attrib_val_as_int;
+
+	if(curr_attribute_type == ATYPE_INTEGER)
+		attrib_val_as_int = atoi(attribute_val);
+
+	// Go through each possible attribute and set the appropriate one.
+	if(curr_recipe_type == RTYPE_PROPERTIES) {
+		if(strcmp(attribute_name, "name") == 0) {
+			map_data->name = (char*)malloc(strlen(attribute_val) + 1);
+			strcpy(map_data->name, attribute_val);
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "sky_tex") == 0) {
+			map_data->sky_tex = (char*)malloc(strlen(attribute_val) + 1);
+			strcpy(map_data->sky_tex, attribute_val);
+			result = 1;
+		}
+
+		else
+			result = 0;
+	}
+
+	else
+		result = 0;
+
+	return result;
 }
 
 void reset() {

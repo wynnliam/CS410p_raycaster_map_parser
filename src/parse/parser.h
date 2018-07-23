@@ -289,3 +289,23 @@ int parse_attribute(char c, FILE* map_file, struct map_data* map_data);
 		Implicitly handles error where a bad value is given to an attribute.
 */
 void set_curr_attribute_type(char* attribute_name);
+
+/*
+	Sets the value of a member inside a map_data structure. To do so,
+	we take the attribute name and parser state variables and set the appropriate
+	member inside the map_data structure.
+
+	PRECONDITIONS:
+		-curr_state must be PARSING_ATTRIBUTES
+		-curr_recipe_type must not be RTYPE_INVALID
+		-curr_attribute_type must not be ATYPE_INVALID
+		-arguments must not be NULL.
+
+	POSTCONDITIONS:
+		This procedure does not modify the overall state of the application.
+
+	RETURNS:
+		1 is all preconditions are met. 0 if otherwise OR the attribute_name does not
+		match to anything in the map_data structure.
+*/
+int set_map_data_val(struct map_data* map_data, char* attribute_name, char* attribute_val);
