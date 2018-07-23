@@ -12,7 +12,7 @@ properties {
 # Specifies a rectangular space in the world.
 component {
 	# Integers
-	x = "0"; y = "0";
+	x = "1"; y = "0";
 	w = "3"; h = "4";
 	# Integer (boolean, but can be treated as integer)
 	is_floor_ciel = "1";

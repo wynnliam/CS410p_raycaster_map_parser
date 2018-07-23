@@ -352,6 +352,48 @@ int set_map_data_val(struct map_data* map_data, char* attribute_name, char* attr
 			result = 0;
 	}
 
+	else if(curr_recipe_type == RTYPE_COMPONENT) {
+		if(strcmp(attribute_name, "x") == 0) {
+			map_data->component_head->x = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "y") == 0) {
+			map_data->component_head->y = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "w") == 0) {
+			map_data->component_head->w = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "h") == 0) {
+			map_data->component_head->h = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "is_floor_ciel") == 0) {
+			map_data->component_head->is_floor_ceil = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "tex_0") == 0) {
+			map_data->component_head->tex_0 = (char*)malloc(strlen(attribute_val) + 1);
+			strcpy(map_data->component_head->tex_0, attribute_val);
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "tex_1") == 0) {
+			map_data->component_head->tex_1 = (char*)malloc(strlen(attribute_val) + 1);
+			strcpy(map_data->component_head->tex_1, attribute_val);
+			result = 1;
+		}
+
+		else
+			result = 0;
+	}
+
 	else
 		result = 0;
 
