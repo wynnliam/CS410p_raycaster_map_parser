@@ -399,6 +399,26 @@ int set_map_data_val(struct map_data* map_data, char* attribute_name, char* attr
 			result = 0;
 	}
 
+	else if(curr_recipe_type == RTYPE_THING) {
+		if(strcmp(attribute_name, "type") == 0) {
+			map_data->thing_head->type = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "x") == 0) {
+			map_data->thing_head->x = attrib_val_as_int;
+			result = 1;
+		}
+
+		else if(strcmp(attribute_name, "y") == 0) {
+			map_data->thing_head->y = attrib_val_as_int;
+			result = 1;
+		}
+
+		else
+			result = 0;
+	}
+
 	else
 		result = 0;
 
