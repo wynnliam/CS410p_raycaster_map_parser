@@ -152,12 +152,17 @@ void set_curr_recipe_type(char* recipe_header, struct map_data* map_data) {
 
 	if(strcmp(recipe_header, "properties") == 0)
 		result = RTYPE_PROPERTIES;
+
 	else if(strcmp(recipe_header, "component") == 0) {
 		add_component(map_data);
 		result = RTYPE_COMPONENT;
 	}
-	else if(strcmp(recipe_header, "thing") == 0)
+
+	else if(strcmp(recipe_header, "thing") == 0) {
+		add_thing_data(map_data);
 		result = RTYPE_THING;
+	}
+
 	else
 		result = RTYPE_INVALID;
 

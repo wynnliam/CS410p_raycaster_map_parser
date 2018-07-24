@@ -11,6 +11,7 @@
 
 void print_map(struct map_data* map_data);
 void print_component(struct component* curr);
+void print_thing(struct thing_data* curr);
 
 int main() {
 	FILE* map_file;
@@ -41,7 +42,10 @@ void print_map(struct map_data* map_data) {
 	printf("Map Name: %s\n", map_data->name);
 	printf("Sky Texture: %s\n", map_data->sky_tex);
 
+	printf("\n");
 	print_component(map_data->component_head);
+	printf("\n");
+	print_thing(map_data->thing_head);
 }
 
 void print_component(struct component* curr) {
@@ -56,4 +60,15 @@ void print_component(struct component* curr) {
 	printf("Tex 1 = %s\n", curr->tex_1);
 
 	print_component(curr->next);
+}
+
+void print_thing(struct thing_data* curr) {
+	if(!curr)
+		return;
+
+	printf("THING:\n");
+	printf("x = %d, y = %d\n", curr->x, curr->y);
+	printf("type = %d\n", curr->type);
+
+	print_thing(curr->next);
 }

@@ -25,3 +25,18 @@ int add_component(struct map_data* add_to) {
 	return 1;
 }
 
+int add_thing_data(struct map_data* add_to) {
+	if(!add_to)
+		return 0;
+
+	struct thing_data* to_add = (struct thing_data*)malloc(sizeof(struct thing_data));
+
+	to_add->x = 0;
+	to_add->y = 0;
+	to_add->type = 0;
+
+	to_add->next = add_to->thing_head;
+	add_to->thing_head = to_add;
+
+	return 1;
+}
