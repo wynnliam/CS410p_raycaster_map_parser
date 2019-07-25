@@ -17,7 +17,7 @@ should do is construct a file type that is both human readable, and easy enough 
 the Squanto Map.
 
 ## The Squanto Map
-The Squanto Map, or as I abreviate it: sqm, is the file type of choice for the Raycaster. It isn't particularly
+The Squanto Map, or as I abbreviate it: sqm, is the file type of choice for the Raycaster. It isn't particularly
 fancy by any means. Essentially, it is a list of what I call "recipes". Each recipe is just a set of what I call
 "attributes". Here's an example below:
 
